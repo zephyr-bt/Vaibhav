@@ -37,13 +37,51 @@
             cursor: none;
         }
         
-        /* Preloader */
+        /* 🔥 PREMIUM LENS PRELOADER 🔥 */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #05030a; z-index: 99999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s cubic-bezier(0.8, 0, 0.2, 1), visibility 0.8s ease-out;
         }
+        .loader-core {
+            position: relative; width: 80px; height: 80px;
+        }
+        .loader-ring-outer {
+            position: absolute; inset: 0;
+            border: 2px dashed rgba(168, 85, 247, 0.3);
+            border-radius: 50%;
+            animation: spin-slow 8s linear infinite;
+        }
+        .loader-ring-inner {
+            position: absolute; inset: 10px;
+            border: 3px solid transparent;
+            border-top-color: #a855f7;
+            border-right-color: #c084fc;
+            border-radius: 50%;
+            /* Snappy camera focus animation */
+            animation: spin-fast 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite; 
+        }
+        .loader-dot {
+            position: absolute; inset: 32px;
+            background: #c084fc;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #a855f7, 0 0 40px #9333ea;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        .loader-text {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            letter-spacing: 0.6em;
+            color: #a855f7;
+            font-weight: 700;
+            animation: text-flicker 2s linear infinite;
+        }
+        
+        @keyframes spin-fast { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse-glow { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.6); opacity: 1; } }
+        @keyframes text-flicker { 0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(168,85,247,0.5); } 50% { opacity: 0.4; text-shadow: none; } }
+        /* END PRELOADER */
 
         .bg-grid {
             background-size: 40px 40px;
@@ -60,7 +98,6 @@
             transform-style: preserve-3d;
         }
         
-        /* 3D Inner element pop */
         .glass-inner { transform: translateZ(30px); }
 
         .glow-hover:hover {
@@ -87,10 +124,12 @@
 <body class="antialiased selection:bg-brand-500 selection:text-white relative overflow-hidden">
 
     <div id="preloader">
-        <div class="relative flex items-center justify-center">
-            <div class="absolute inset-0 bg-brand-600 rounded-full blur-[60px] animate-pulse-slow opacity-50 w-32 h-32"></div>
-            <i class="fa-solid fa-v text-6xl text-brand-400 animate-bounce-slow relative z-10 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]"></i>
+        <div class="loader-core">
+            <div class="loader-ring-outer"></div>
+            <div class="loader-ring-inner"></div>
+            <div class="loader-dot"></div>
         </div>
+        <div class="loader-text">RENDERING</div>
     </div>
 
     <div id="cursor-dot" class="hidden md:block"></div>
